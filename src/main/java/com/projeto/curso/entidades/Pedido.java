@@ -5,6 +5,7 @@ import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -37,6 +39,9 @@ public class Pedido implements Serializable {
 	
 	@OneToMany(mappedBy = "id.pedido")
 	private Set<ItemPedido> itens = new HashSet<>();
+	
+	@OneToOne(mappedBy = "pedido", cascade = CascadeType.ALL)
+	private Pagamento pagamento;
 
 	public Pedido() {
 	}
@@ -82,7 +87,14 @@ public class Pedido implements Serializable {
 	public void setCliente(Usuario cliente) {
 		this.cliente = cliente;
 	}
-	
+
+	public Pagamento getPagamento() {
+		return pagamento;
+	}
+
+	public void setPagamento(Pagamento pagamento) {
+		this.pagamento = pagamento;
+	}
 
 	public Set<ItemPedido> getItens() {
 		return itens;
